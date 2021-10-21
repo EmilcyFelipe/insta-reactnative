@@ -1,9 +1,23 @@
 import React from 'react'
-import { View, Text, StyleSheet, Image} from 'react-native'
+import { View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native'
 
 export default function List(props){
+
+    function carregaIcone(likeada){
+        return likeada? require('../img/likeada.png'):require('../img/like.png')
+        
+    }
+
+    function mostraLikes(likers){
+        if(likers === 0){
+            return;
+        }
+        return(
+            <Text style={styles.likes}>{likers} Curtida{likers>1?'s':''}</Text>
+        )
+    }
     return(
-        <View style={styles.list}>
+        <View>
             <View style={styles.viewPerfil}>
                 <Image 
                 source={{uri: props.data.imgperfil}}
@@ -12,20 +26,50 @@ export default function List(props){
                 <Text style={styles.nomeUsuario}>{props.data.nome}</Text>
 
             </View>
-            <Image/>
+            <Image 
+            resizeMode= 'cover'
+            source={{uri: props.data.imgPublicacao}}
+            style={styles.fotoPublicacao}
+            />
+            <View style={styles.areaBtn}>
+                <TouchableOpacity>
+                    <Image
+                    source={carregaIcone(props.data.likeada)}
+                    style={styles.iconeLike}
+                    />
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.btnsend}> 
+                    <Image
+                    source={require('../img/comment.png')}
+                    style={styles.iconeLike}
+                    />
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.btnsend}> 
+                    <Image
+                    source={require('../img/send.png')}
+                    style={styles.iconeLike}
+                    />
+                </TouchableOpacity>
+            </View>
+            {mostraLikes(props.data.likers)}
+            <Text style={styles.nomeRodape}>
+                {props.data.nome}
+            </Text>
+            <Text style={styles.descRodape}>
+                {props.data.descricao}
+            </Text>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
-    list:{
-        padding: 10
-    },
     viewPerfil:{
         flexDirection: 'row',
         flex: 1,
         alignItems: 'center',
-        padding: 8
+        padding: 8,
     },
     fotoPerfil:{
         width: 50,
@@ -36,5 +80,34 @@ const styles = StyleSheet.create({
         paddingLeft:5,
         fontSize: 22,
         color: '#000'
+    },
+    fotoPublicacao:{
+        height: 400,
+        alignItems: 'center'
+    },
+    areaBtn:{
+        flexDirection: 'row',
+        padding: 5
+    },
+    iconeLike:{
+        width: 25,
+        height: 25
+    },
+    btnsend:{
+        paddingLeft: 5
+    },
+    likes:{
+        fontWeight: 'bold',
+        marginLeft: 5
+    },
+    nomeRodape:{
+        fontSize: 18,
+        fontWeight: 'bold',
+        paddingLeft: 5
+    },
+    descRodape:{
+        paddingLeft:5,
+        paddingBottom: 10,
+        fontSize: 15
     }
 })
